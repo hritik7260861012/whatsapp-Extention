@@ -213,3 +213,9 @@ Check the repository for a `LICENSE` file to determine the applicable license be
 <p align="center">
   Made with ❤️ for a cleaner WhatsApp Web experience.
 </p>
+
+👨‍💻 Author & Copyright
+
+Created and maintained by Hritik. ❤️
+
+Copyright © 2026 Hritik. All rights reserved.
