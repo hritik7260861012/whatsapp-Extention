@@ -1,0 +1,15 @@
+/*
+ * WhatsApp Clean UI - Content stylesheet (Phase 2)
+ *
+ * The single extension-specific class below hides a WhatsApp Web
+ * navigation item. It is applied only by content.js to elements
+ * that passed the strict identification checks (accessible name
+ * plus corroborating navigation signals). No other WhatsApp Web
+ * styles are overridden, and no global styles are applied.
+ *
+ * The class name must stay in sync with HIDE_CLASS in content.js.
+ */
+
+.wacu-nav-item-hidden {
+  display: none !important;
+}

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WhatsApp Clean UI</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <main>
+    <h1>WhatsApp Clean UI</h1>
+    <p class="description">Hide navigation items on WhatsApp Web. Changes are stored locally and apply immediately.</p>
+
+    <form id="settings-form" aria-label="WhatsApp Clean UI settings">
+      <div class="setting">
+        <input type="checkbox" id="hideUpdates" name="hideUpdates">
+        <label for="hideUpdates">Hide Updates/Status</label>
+        <span class="state" id="hideUpdates-state" aria-hidden="true">ON</span>
+      </div>
+      <div class="setting">
+        <input type="checkbox" id="hideCommunities" name="hideCommunities">
+        <label for="hideCommunities">Hide Communities</label>
+        <span class="state" id="hideCommunities-state" aria-hidden="true">ON</span>
+      </div>
+
+      <fieldset class="diagnostics">
+        <legend>Diagnostics</legend>
+        <div class="setting">
+          <input type="checkbox" id="debug" name="debug">
+          <label for="debug">Enable debug logging</label>
+          <span class="state" id="debug-state" aria-hidden="true">OFF</span>
+        </div>
+        <p class="hint">Logs <code>[WhatsApp Clean UI]</code> to the WhatsApp Web console. Open DevTools, then switch the console context selector to &ldquo;WhatsApp Clean UI&rdquo; to see them.</p>
+      </fieldset>
+    </form>
+
+    <p id="status-message" class="status-message" role="status" aria-live="polite">Loading settings…</p>
+  </main>
+  <script src="popup.js"></script>
+</body>
+</html>

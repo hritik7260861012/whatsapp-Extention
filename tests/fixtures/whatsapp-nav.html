@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" id="whatsapp-web">
+<head>
+  <meta charset="UTF-8">
+  <title>WhatsApp Clean UI - DOM fixture</title>
+  <style>
+    body { font-family: system-ui, sans-serif; margin: 0; }
+    .rail { width: 72px; background: #f0f2f5; padding: 8px; display: flex; flex-direction: column; gap: 8px; }
+    .rail-item { display: block; width: 48px; padding: 12px 0; text-align: center; border-radius: 8px; }
+    .pane { display: flex; min-height: 400px; }
+    #side { width: 320px; border-left: 1px solid #ddd; padding: 8px; }
+    .row { padding: 8px; border-bottom: 1px solid #eee; }
+    #main { flex: 1; padding: 8px; }
+    .msg { padding: 6px; margin: 6px 0; }
+  </style>
+</head>
+<body>
+<!--
+  Structural replica of the CURRENT WhatsApp Web icon rail, derived from the
+  production bundle served by web.whatsapp.com:
+    * rail entries carry data-navbar-item / data-navbar-item-index
+      (written by WDSMenuBarItem, read back by useWAWebArrowKeyNavigation)
+    * each entry carries a stable data-testid of the form navbar-item-*
+    * entries are focusable (tabindex) and expose an accessible name
+    * the rail is a SIBLING of #pane-side, and is not a <nav> landmark
+    * Status and Communities have no href (they open a mid drawer)
+-->
+<div id="app">
+  <div class="two pane">
+
+    <header data-testid="chatlist-header" role="navigation" aria-label="Chats and calls">
+      <div class="rail">
+        <div role="button" tabindex="-1" data-navbar-item data-navbar-item-index="0"
+             data-testid="navbar-item-chats" aria-label="Chats" id="nav-chats">
+          <span aria-hidden="true">C</span>
+        </div>
+        <div role="button" tabindex="-1" data-navbar-item data-navbar-item-index="1"
+             data-testid="navbar-item-status" aria-label="Status" id="nav-status">
+          <span aria-hidden="true">S</span>
+          <span aria-label="Updates in Status">3</span>
+        </div>
+        <div role="button" tabindex="-1" data-navbar-item data-navbar-item-index="2"
+             data-testid="navbar-item-communities" aria-label="Communities" id="nav-communities">
+          <span aria-hidden="true">K</span>
+        </div>
+        <div role="button" tabindex="-1" data-navbar-item data-navbar-item-index="3"
+             data-testid="navbar-item-metabot" aria-label="Meta AI" id="nav-metabot">
+          <span aria-hidden="true">AI</span>
+        </div>
+        <div role="button" tabindex="-1" data-navbar-item data-navbar-item-index="4"
+             data-testid="navbar-item-settings" aria-label="Settings" id="nav-settings">
+          <span aria-hidden="true">G</span>
+        </div>
+        <button aria-label="New chat" data-testid="menu-bar-chat" id="nav-new-chat">+</button>
+      </div>
+    </header>
+
+    <div id="pane-side">
+      <div id="side">
+        <div role="gridcell" data-testid="cell-frame-container" class="row" id="row-one">
+          <span>Communities</span>
+        </div>
+        <div role="gridcell" data-testid="cell-frame-container" class="row" id="row-status">
+          <span>Status updates today</span>
+        </div>
+        <!-- non-interactive chip that must NOT be hidden -->
+        <div class="row" id="side-chip">
+          <span aria-label="Status">Status</span>
+        </div>
+        <!-- search result that must NOT be hidden -->
+        <div id="search-results" role="listbox">
+          <div role="option" id="search-communities">Communities group</div>
+        </div>
+      </div>
+    </div>
+
+    <main id="main" role="main">
+      <div class="msg" data-testid="cell-frame-container" id="message-status">
+        Sure, check the Status updates later.
+      </div>
+      <div class="msg" id="message-communities">
+        Join our Communities please.
+      </div>
+      <div contenteditable="true" role="textbox" id="composer">
+        <span aria-label="Communities">Communities</span>
+      </div>
+      <div role="dialog" aria-label="Settings" id="settings-dialog">
+        <div id="settings-option">
+          <button aria-label="Communities" id="settings-communities">Communities</button>
+        </div>
+      </div>
+      <div role="menu" id="context-menu">
+        <div role="menuitem" id="menu-status">Status</div>
+      </div>
+    </main>
+
+  </div>
+</div>
+</body>
+</html>

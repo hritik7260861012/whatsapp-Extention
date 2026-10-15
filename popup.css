@@ -1,0 +1,166 @@
+/* WhatsApp Clean UI - Popup styles (local CSS only, no external assets) */
+
+:root {
+  color-scheme: light dark;
+}
+
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  background-color: #ffffff;
+  color: #1f2937;
+}
+
+main {
+  width: 280px;
+  max-width: 100vw;
+  padding: 16px;
+  box-sizing: border-box;
+}
+
+h1 {
+  margin: 0 0 8px;
+  font-size: 18px;
+  line-height: 1.3;
+  color: #111827;
+}
+
+.description {
+  margin: 0 0 12px;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+#settings-form {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 0 0 12px;
+}
+
+.setting {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.setting input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  margin: 0;
+  flex-shrink: 0;
+  accent-color: #0b57d0;
+}
+
+.setting input[type="checkbox"]:focus-visible {
+  outline: 2px solid #0b57d0;
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+.setting label {
+  font-size: 14px;
+  line-height: 1.4;
+  cursor: pointer;
+  user-select: none;
+}
+
+.diagnostics {
+  margin: 8px 0 0;
+  padding: 10px 12px;
+  border: 1px solid #e2e6ea;
+  border-radius: 6px;
+}
+
+.diagnostics legend {
+  padding: 0 4px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #6b7280;
+}
+
+.diagnostics .hint {
+  margin: 8px 0 0;
+  font-size: 11px;
+  line-height: 1.4;
+  color: #6b7280;
+}
+
+.diagnostics .hint code {
+  font-size: 11px;
+}
+
+.state {
+  margin-left: auto;
+  padding: 2px 6px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  line-height: 1.2;
+  border-radius: 4px;
+  background-color: #e6f4ea;
+  color: #137333;
+  user-select: none;
+}
+
+.state.off {
+  background-color: #f1f3f4;
+  color: #5f6368;
+}
+
+.status-message {
+  margin: 0;
+  padding: 10px 12px;
+  font-size: 13px;
+  line-height: 1.4;
+  border-radius: 6px;
+  background-color: #eef2f7;
+  color: #374151;
+}
+
+.status-message.error {
+  background-color: #fde8e8;
+  color: #8c1d18;
+}
+
+@media (prefers-color-scheme: dark) {
+  body {
+    background-color: #111827;
+    color: #e5e7eb;
+  }
+
+  h1 {
+    color: #f9fafb;
+  }
+
+  .status-message {
+    background-color: #1f2937;
+    color: #d1d5db;
+  }
+
+  .status-message.error {
+    background-color: #3a1c1a;
+    color: #f3b3ac;
+  }
+
+  .state {
+    background-color: #123c22;
+    color: #7fdca6;
+  }
+
+  .state.off {
+    background-color: #2b2f33;
+    color: #9aa0a6;
+  }
+
+  .diagnostics {
+    border-color: #374151;
+  }
+
+  .diagnostics legend,
+  .diagnostics .hint {
+    color: #9ca3af;
+  }
+}

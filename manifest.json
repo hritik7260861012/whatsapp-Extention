@@ -1,0 +1,27 @@
+{
+  "manifest_version": 3,
+  "name": "WhatsApp Clean UI",
+  "version": "1.1.0",
+  "description": "Hide Updates/Status and Communities navigation items on WhatsApp Web.",
+  "action": {
+    "default_popup": "popup.html"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://web.whatsapp.com/*"
+      ],
+      "js": [
+        "content.js"
+      ],
+      "css": [
+        "styles.css"
+      ],
+      "run_at": "document_idle",
+      "all_frames": false
+    }
+  ],
+  "permissions": [
+    "storage"
+  ]
+}
