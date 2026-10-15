@@ -244,9 +244,13 @@ export function runStaticTests(projectDir) {
     return true;
   });
   check('popup.css contains no remote URLs', () => {
-    notIncludes(popupCss, 'http://');
-    notIncludes(popupCss, 'https://');
-    notIncludes(popupCss, '@import');
+    // Comments are stripped first: a comment mentioning "@import" is not a
+    // remote dependency, but an actual at-rule would be.
+    const css = popupCss.replace(/\/\*[\s\S]*?\*\//g, '');
+    notIncludes(css, 'http://');
+    notIncludes(css, 'https://');
+    notIncludes(css, '//fonts.');
+    notIncludes(css, '@import');
     return true;
   });
   check('styles.css overrides nothing except the extension class', () => {

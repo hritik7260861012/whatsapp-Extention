@@ -3,38 +3,103 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>WhatsApp Clean UI</title>
+  <title>Hritik's Clean UI</title>
   <link rel="stylesheet" href="popup.css">
 </head>
 <body>
-  <main>
-    <h1>WhatsApp Clean UI</h1>
-    <p class="description">Hide navigation items on WhatsApp Web. Changes are stored locally and apply immediately.</p>
+  <main class="shell">
 
-    <form id="settings-form" aria-label="WhatsApp Clean UI settings">
-      <div class="setting">
-        <input type="checkbox" id="hideUpdates" name="hideUpdates">
-        <label for="hideUpdates">Hide Updates/Status</label>
-        <span class="state" id="hideUpdates-state" aria-hidden="true">ON</span>
+    <!-- Header -->
+    <header class="hero">
+      <img class="hero__logo" src="icons/icon48.png" alt="" width="44" height="44">
+      <div class="hero__text">
+        <h1 class="hero__title">Hritik's Clean UI</h1>
+        <p class="hero__subtitle">WhatsApp Web Enhancer</p>
       </div>
-      <div class="setting">
-        <input type="checkbox" id="hideCommunities" name="hideCommunities">
-        <label for="hideCommunities">Hide Communities</label>
-        <span class="state" id="hideCommunities-state" aria-hidden="true">ON</span>
-      </div>
+    </header>
 
-      <fieldset class="diagnostics">
-        <legend>Diagnostics</legend>
-        <div class="setting">
-          <input type="checkbox" id="debug" name="debug">
-          <label for="debug">Enable debug logging</label>
-          <span class="state" id="debug-state" aria-hidden="true">OFF</span>
-        </div>
-        <p class="hint">Logs <code>[WhatsApp Clean UI]</code> to the WhatsApp Web console. Open DevTools, then switch the console context selector to &ldquo;WhatsApp Clean UI&rdquo; to see them.</p>
-      </fieldset>
+    <!-- Live status: kept as a single text node because popup.js writes
+         status.textContent directly. The leading dot is drawn in CSS. -->
+    <p id="status-message" class="status-message" role="status" aria-live="polite">Loading settings&hellip;</p>
+
+    <form id="settings-form" novalidate>
+
+      <!-- Main settings -->
+      <section class="section" aria-labelledby="section-sidebar">
+        <h2 class="section__title" id="section-sidebar">Customize Sidebar</h2>
+
+        <label class="card" for="hideUpdates">
+          <span class="card__icon card__icon--status" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="8.5"></circle>
+              <path d="M12 7.6v4.4l2.8 1.7"></path>
+            </svg>
+          </span>
+          <span class="card__body">
+            <span class="card__title">Updates / Status</span>
+            <span class="card__desc">Hide status from sidebar</span>
+          </span>
+          <span class="card__controls">
+            <span class="state" id="hideUpdates-state" aria-hidden="true">ON</span>
+            <input type="checkbox" id="hideUpdates" name="hideUpdates" class="switch">
+          </span>
+        </label>
+
+        <label class="card" for="hideCommunities">
+          <span class="card__icon card__icon--people" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M15.5 19.5v-1.6a3.4 3.4 0 0 0-3.4-3.4H7.4A3.4 3.4 0 0 0 4 17.9v1.6"></path>
+              <circle cx="9.75" cy="8" r="3.1"></circle>
+              <path d="M20 19.5v-1.6a3.4 3.4 0 0 0-2.6-3.3"></path>
+              <path d="M15.2 5.1a3.1 3.1 0 0 1 0 5.8"></path>
+            </svg>
+          </span>
+          <span class="card__body">
+            <span class="card__title">Communities</span>
+            <span class="card__desc">Hide communities from sidebar</span>
+          </span>
+          <span class="card__controls">
+            <span class="state" id="hideCommunities-state" aria-hidden="true">ON</span>
+            <input type="checkbox" id="hideCommunities" name="hideCommunities" class="switch">
+          </span>
+        </label>
+      </section>
+
+      <!-- Diagnostics -->
+      <section class="section" aria-labelledby="section-diagnostics">
+        <h2 class="section__title section__title--muted" id="section-diagnostics">Diagnostics</h2>
+
+        <label class="card card--compact" for="debug">
+          <span class="card__icon card__icon--debug" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="4.5" width="18" height="15" rx="3"></rect>
+              <path d="M7.5 10.5 10 12.8l-2.5 2.3"></path>
+              <path d="M12.8 15.2h3.7"></path>
+            </svg>
+          </span>
+          <span class="card__body">
+            <span class="card__title">Debug logging</span>
+            <span class="card__desc">Log to the extension console</span>
+          </span>
+          <span class="card__controls">
+            <span class="state" id="debug-state" aria-hidden="true">OFF</span>
+            <input type="checkbox" id="debug" name="debug" class="switch">
+          </span>
+        </label>
+      </section>
     </form>
 
-    <p id="status-message" class="status-message" role="status" aria-live="polite">Loading settings…</p>
+    <p class="hint">
+      Debug logs appear in the DevTools console under the
+      <code>WhatsApp Clean UI</code> context.
+    </p>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <p class="footer__brand">Made by <strong>Hritik</strong></p>
+      <p class="footer__meta">Privacy-focused &bull; Lightweight</p>
+    </footer>
+
   </main>
   <script src="popup.js"></script>
 </body>
