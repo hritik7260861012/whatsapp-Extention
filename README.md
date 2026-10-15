@@ -141,4 +141,5 @@ See `TESTING.md` for the full list of executed checks and the manual verificatio
 - Detection depends on `data-navbar-item` and `navbar-item-*` test ids. If WhatsApp renames them, detection stops matching and the failure mode is fail-safe — items simply stay visible. `diagnose()` makes this easy to spot.
 - Settings apply to all WhatsApp Web tabs; there is no per-tab control.
 - No icon files exist yet.#   w h a t s a p p - E x t e n t i o n  
+ #   w h a t s a p p - E x t e n t i o n  
  
