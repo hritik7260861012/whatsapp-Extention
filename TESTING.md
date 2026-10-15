@@ -22,12 +22,12 @@ No npm packages are required. The browser group drives Chromium over the DevTool
 
 | Group | Checks | Result |
 |---|---|---|
-| Static (manifest, file integrity, cross-file consistency, source review) | 90 | all pass |
+| Static (manifest, file integrity, cross-file consistency, source review) | 98 | all pass |
 | Unit (real `content.js` / `popup.js` in a `node:vm` sandbox, stubbed chrome APIs) | 28 | all pass |
-| Real browser (live site + fixture + popup end-to-end) | 53 | all pass |
-| **Total** | **171** | **171 passed, 0 failed** |
+| Real browser (live site + fixture + popup end-to-end) | 55 | all pass |
+| **Total** | **181** | **181 passed, 0 failed** |
 
-The suite was run four times consecutively with identical results (171 passed, 0 failed each time, ~16 s per run).
+The suite was run repeatedly with identical results (181 passed, 0 failed, ~16 s per run).
 
 ## What each group covers
 
@@ -38,6 +38,7 @@ The suite was run four times consecutively with identical results (171 passed, 0
 - **Syntax**: `node --check` on `content.js` and `popup.js`.
 - **Cross-file consistency**: the hiding class matches between `content.js` and `styles.css`; `styles.css` really applies `display: none !important` and contains exactly one rule; the `WACU_SETTINGS_UPDATED` name and the `hideUpdates` / `hideCommunities` / `debug` keys match across files; every popup storage key has a checkbox, a `<label for>` and a state badge; `popup.html` references only local assets.
 - **Source review**: detection uses the `data-navbar-item` contract and the `navbar-item-*` test ids; the class is applied only through `classList`; no `remove()`/`removeChild`/`replaceWith`/`innerHTML =`; no `insertBefore`/`appendChild`/`parentNode.`; the observer is single, disconnectable, debounced, `childList`-only, and has a bounded scan budget; chrome APIs are guarded; diagnostics exist; debug logging is gated and prefixed.
+- **Icons**: the four standard sizes are declared; every referenced icon file exists on disk; `action.default_icon` mirrors the top-level `icons` map; each file is a real PNG whose IHDR width and height match its declared size; the set stays under 500 KB.
 - **Safety**: 20 forbidden APIs checked in both scripts (`eval`, `new Function`, `fetch`, `XMLHttpRequest`, `WebSocket`, `sendBeacon`, `chrome.tabs`, `chrome.cookies`, `chrome.history`, `chrome.webRequest`, `chrome.downloads`, `chrome.bookmarks`, `clipboard`, `cookie`, `localStorage`, `sessionStorage`, `indexedDB`, `Notification`, …); `textContent` is read at most twice (accessible-name helper only); no inline handlers; no remote URLs in CSS.
 
 ### Unit — `tests/unit.test.mjs`

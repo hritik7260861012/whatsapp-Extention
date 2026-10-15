@@ -18,7 +18,7 @@
  *                  -> chrome.storage.local -> live WhatsApp tab.
  */
 import { createServer } from 'node:http';
-import { mkdtempSync, rmSync, copyFileSync, writeFileSync, readFileSync } from 'node:fs';
+import { mkdtempSync, rmSync, copyFileSync, writeFileSync, readFileSync, mkdirSync, existsSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join, extname } from 'node:path';
 import { createHash } from 'node:crypto';
@@ -55,6 +55,13 @@ async function waitFor(fn, { timeout = 20000, interval = 200, label = 'condition
 async function startFixture(projectDir) {
   const tmp = mkdtempSync(join(tmpdir(), 'wacu-fixture-'));
   EXT_FILES.forEach(f => copyFileSync(join(projectDir, f), join(tmp, f)));
+  // The manifest references icons/*.png, so the fixture copy must carry them
+  // too - otherwise the extension under test fails to load over missing files.
+  const iconDir = join(tmp, 'icons');
+  mkdirSync(iconDir, { recursive: true });
+  const manifest0 = JSON.parse(readFileSync(join(projectDir, 'manifest.json'), 'utf8'));
+  const iconPaths = Object.values(manifest0.icons || {});
+  iconPaths.forEach(rel => copyFileSync(join(projectDir, rel), join(tmp, rel)));
   writeFileSync(join(tmp, 'whatsapp-nav.html'), readFileSync(join(projectDir, 'tests', 'fixtures', 'whatsapp-nav.html')));
 
   const server = createServer((req, res) => {
@@ -258,6 +265,27 @@ export async function runBrowserTests(projectDir) {
     await check('copied content.js/styles.css/popup.* are byte-identical to the project files', () => {
       for (const f of EXT_FILES) {
         eq(sha256(readFileSync(join(fixture.dir, f))), sha256(readFileSync(join(projectDir, f))), `${f} was modified`);
+      }
+      return true;
+    });
+    await check('copied icons are byte-identical to the project files', () => {
+      const m = JSON.parse(readFileSync(join(projectDir, 'manifest.json'), 'utf8'));
+      const paths = Object.values(m.icons || {});
+      assert(paths.length > 0, 'no icons declared in the manifest');
+      for (const rel of paths) {
+        eq(sha256(readFileSync(join(fixture.dir, rel))), sha256(readFileSync(join(projectDir, rel))), `${rel} was modified`);
+      }
+      return true;
+    });
+    await check('every file the manifest references exists in the fixture copy', () => {
+      const m = JSON.parse(readFileSync(join(fixture.dir, 'manifest.json'), 'utf8'));
+      const referenced = [
+        ...(m.action ? [m.action.default_popup, ...Object.values(m.action.default_icon || {})] : []),
+        ...Object.values(m.icons || {}),
+        ...m.content_scripts.flatMap(cs => [...(cs.js || []), ...(cs.css || [])]),
+      ];
+      for (const rel of referenced) {
+        assert(existsSync(join(fixture.dir, rel)), rel + ' referenced by the manifest but absent');
       }
       return true;
     });

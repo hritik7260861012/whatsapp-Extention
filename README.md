@@ -58,7 +58,9 @@ Whatsapp-Extention/
 ├── PRIVACY.md          # Privacy information
 ├── TESTING.md          # Testing instructions
 ├── tests/              # Automated tests
-└── icons/              # Extension icons, if provided
+├── tools/
+│   └── make-icons.mjs  # Regenerates icons/ from any source PNG
+└── icons/              # icon16/32/48/128.png (referenced by manifest.json)
 ```
 
 ## 🚀 Installation Guide

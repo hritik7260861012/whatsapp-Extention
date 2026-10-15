@@ -1,11 +1,11 @@
-/**
+﻿/**
  * Static checks: manifest validity, file integrity, permissions,
  * cross-file consistency and source-level safety review.
  */
 import { readFileSync, existsSync } from 'node:fs';
 import { join } from 'node:path';
 import { execFileSync } from 'node:child_process';
-import { section, check, assert, eq, includes, notIncludes } from './lib/harness.mjs';
+import { section, check, assert, eq, deepEq, includes, notIncludes } from './lib/harness.mjs';
 
 export function runStaticTests(projectDir) {
   const read = f => readFileSync(join(projectDir, f), 'utf8');
@@ -40,6 +40,46 @@ export function runStaticTests(projectDir) {
   check('run_at is document_idle', () => eq(cs.run_at, 'document_idle'));
   check('all_frames is false (top frame only)', () => eq(cs.all_frames, false));
   check('no background/service worker is declared', () => assert(!manifest.background, 'unexpected background key'));
+
+  section('A2b. Icons');
+  const iconMap = manifest.icons || {};
+  check('manifest declares the four standard icon sizes', () => {
+    for (const size of ['16', '32', '48', '128']) {
+      assert(iconMap[size], 'icons.' + size + ' missing');
+    }
+    return true;
+  });
+  for (const size of ['16', '32', '48', '128']) {
+    check(`icons/icon${size}.png exists on disk`, () => {
+      const rel = iconMap[size];
+      assert(typeof rel === 'string', `icons.${size} is not a string`);
+      assert(/^icons\/[\w.-]+\.png$/.test(rel), `icons.${size} must stay inside icons/ and be a .png, got ${rel}`);
+      assert(existsSync(join(projectDir, rel)), rel + ' is referenced but missing on disk');
+      return true;
+    });
+  }
+  check('action.default_icon mirrors the top-level icons map', () => {
+    const def = (manifest.action && manifest.action.default_icon) || {};
+    deepEq(def, iconMap, 'default_icon differs from icons');
+    return true;
+  });
+  check('every icon file is a real, non-empty PNG', () => {
+    for (const size of ['16', '32', '48', '128']) {
+      const file = join(projectDir, iconMap[size]);
+      const buf = readFileSync(file);
+      const sig = Buffer.from([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]);
+      assert(buf.subarray(0, 8).equals(sig), `icon${size} is not a PNG`);
+      assert(buf.length > 100, `icon${size} is suspiciously small (${buf.length} bytes)`);
+      assert(buf.readUInt32BE(16) === Number(size), `icon${size} reports width ${buf.readUInt32BE(16)}`);
+      assert(buf.readUInt32BE(20) === Number(size), `icon${size} reports height ${buf.readUInt32BE(20)}`);
+    }
+    return true;
+  });
+  check('icons do not bloat the packaged extension', () => {
+    const total = ['16', '32', '48', '128'].reduce((n, s) => n + readFileSync(join(projectDir, iconMap[s])).length, 0);
+    assert(total < 500 * 1024, `icons total ${(total / 1024).toFixed(0)} KB; expected < 500 KB`);
+    return true;
+  });
 
   section('A3. Permissions and privacy surface');
   check('permissions are exactly ["storage"]', () => eq(JSON.stringify(manifest.permissions), JSON.stringify(['storage'])));
