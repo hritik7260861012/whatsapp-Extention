@@ -10,6 +10,15 @@ Hide the **Updates / Status** and **Communities** navigation items on WhatsApp W
 
 ---
 
+## 🌐 Microsoft Edge Extension
+
+**WhatsApp Clean UI** — Enhance your WhatsApp Web experience with a cleaner user interface.
+
+[![Available on Microsoft Edge Add-ons](https://img.shields.io/badge/Microsoft%20Edge-Add--ons-0078D7?logo=microsoftedge&logoColor=white)](https://microsoftedge.microsoft.com/addons/detail/whatsapp-clean-ui/ioelpnhlpddomojmhnijjocgnggfmhdo)
+
+👉 **Install Extension:** [WhatsApp Clean UI](https://microsoftedge.microsoft.com/addons/detail/whatsapp-clean-ui/ioelpnhlpddomojmhnijjocgnggfmhdo)
+
+
 ## 📌 About the Project
 
 **WhatsApp Clean UI** is a lightweight browser extension built with JavaScript, HTML, and CSS using the **Manifest V3** extension platform.
